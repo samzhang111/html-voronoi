@@ -1,8 +1,10 @@
-let showVoronoi = true;
+import { Delaunay } from "d3-delaunay";
+
+export let showVoronoi = true;
 let visitedCell, oldLink, oldLinkStyle;
 let handleMouseClickVoronoiGlobal, handleMouseMoveVoronoiGlobal;
 
-function drawVoronoi() {
+export function drawVoronoi() {
     eraseVoronoi();
     let linkDisplay = document.createElement("div");
     linkDisplay.setAttribute("id", "attachedLinkOverlayForDelaunay")
@@ -13,7 +15,7 @@ function drawVoronoi() {
     linkDisplay.style['maxWidth'] = '80%';
     linkDisplay.style['overflowWrap'] = 'break-word';
     linkDisplay.style['font-size'] = '32px';
-    linkDisplay.style['zIndex'] = '11';
+    linkDisplay.style['zIndex'] = '9999999999999999999999999999';
     linkDisplay.style['background-color'] = 'white';
     document.body.appendChild(linkDisplay)
 
@@ -31,7 +33,7 @@ function drawVoronoi() {
     canvas.setAttribute('height', canvasPixelHeight + 'px');
     canvas.style['left'] = '0';
     canvas.style['top'] = '0';
-    canvas.style['zIndex'] = '10';
+    canvas.style['zIndex'] = '999999999999999999999999999';
     canvas.style['pointer-events'] = 'none';
     let canvasWidth = canvas.width;
     let canvasHeight = canvas.height;
@@ -69,7 +71,7 @@ function drawVoronoi() {
         pointsWithNodes.push([canvaspts.x, canvaspts.y, node])
     }
 
-    let delaunay = d3.Delaunay.from(points);
+    let delaunay = Delaunay.from(points);
     /*
     ctx.beginPath();
     ctx.lineWidth = 0.5;
@@ -158,7 +160,7 @@ function drawVoronoi() {
     window.addEventListener("click", handleMouseClickVoronoiGlobal);
 };
 
-function eraseVoronoi() {
+export function eraseVoronoi() {
     window.removeEventListener("mousemove", handleMouseMoveVoronoiGlobal);
     window.removeEventListener("touchstart", handleMouseMoveVoronoiGlobal);
     window.removeEventListener("click", handleMouseClickVoronoiGlobal);
@@ -176,9 +178,10 @@ function eraseVoronoi() {
     }
 }
 
-function toggleVoronoi() {
+export function toggleVoronoi() {
     showVoronoi = !showVoronoi;
     drawVoronoi();
 }
 
+drawVoronoi();
 window.addEventListener("load", drawVoronoi);
